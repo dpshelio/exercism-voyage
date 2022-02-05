@@ -14,8 +14,8 @@
   (cond
    ((endp alist) nil)
    (t
-      (append (reverse-list (cdr alist)) (car alist))   )
-  )
+    (append (reverse-list (cdr alist)) (car alist))   )
+   )
   )
 
 (defun reverse-word (word)
@@ -32,7 +32,7 @@
    ((cl-endp candidates)
     nil
     )
-    ((string= (reverse-word word) (car candidates))
+   ((string= (reverse-word word) (car candidates))
     (car candidates)
     )
    (t
@@ -51,26 +51,58 @@
    ((and (cl-endp list) (cl-endp another-list)) t)
    ((and (= (length list) (length another-list)))
     (same-elements (cdr list)
-                (delete (car list) another-list)
-    )
+                   (delete (car list) another-list)
+                   )
     )
    (t nil)
    )
   )
 
+
+
+;;; -----------------------------------------------------------------------
+;;; As expected, that same-elements fail with elements that are repeated
+;;;                   and it doesn't consider the case of the characters.
+;;; -----------------------------------------------------------------------
+
+
+(defun word-sorted-down (word)
+  "Helper function to sort all the characters of a word in lower case"
+  (cl-reduce
+   'concat
+   `,@(sort (split-string (downcase word) "" t) 'string-collate-lessp)
+   )
+  )
+
+(defun same-elements-str (word another-word)
+  "Compares whether two strings are equal after being sorted - nil if they are the same"
+  (cond
+   ((string= word (downcase another-word)) nil)
+   (t
+    (string=
+     (word-sorted-down word)
+     (word-sorted-down another-word)
+     )
+    )
+   )
+  )
+
+;;; (same-elements-str "word" "Dlow")
+
+
 (defun anagrams-for (word candidates)
-  "returns a list with the good candidates that are anagrams; but uses same-elements which we know it will fail."
+  "returns a list with the good candidates that are anagrams"
   (cond
    ((cl-endp candidates) nil)
-   (t (delq nil (nconc (list (if (same-elements (split-string word "" t) (split-string (car candidates) "" t))
-                 (car candidates)
-               ))
-             (anagrams-for word (cdr candidates)))))
+   (t (delq nil (nconc (list (if (same-elements-str word (car candidates))
+                                 (car candidates)
+                               ))
+                       (anagrams-for word (cdr candidates)))))
+   )
   )
-)
 
-
-
+;;; (anagrams-for "word" '("drow" "Rowd" "hellow"))
+;;; (anagrams-for "banana" '("banana" "Banana"))
 
 
 
