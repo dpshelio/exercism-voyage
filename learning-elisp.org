@@ -1,0 +1,49 @@
+* Passing arguments
+
+- =#'function= seems to be used in stuff like [[*partial functions][partial functions]] or [[*sorting sequences (strings)][sorting
+  sequences (strings)]]
+- =`(,@(function= to execute something before passing to another function to
+  execute; for example [[*Concatenate a list of strings (expand/unfolding)][Concatenate a list of strings (expand/unfolding)]]
+* sorting sequences (strings)
+
+- =seq-sort= can sort a sequence, without needing to create a list from a string.
+  #+begin_src elisp
+    (seq-sort #'< "zyxDcba")
+  #+end_src
+
+  #+RESULTS:
+  : Dabcxyz
+* partial functions
+
+- sometimes we need to pass arguments to a function, to then pass it to a map or
+  filter, =apply-partially= does that!
+
+  #+begin_src elisp :results raw
+    (defun sum-numbers (number-1 number-2)
+      (+ number-1 number-2)
+      )
+    (cl-mapcar (apply-partially #'sum-numbers 3) '(1 2 3))
+  #+end_src
+
+  #+RESULTS:
+  (4 5 6)
+* Concatenate a list of strings (expand/unfolding)
+- The inverse of =split-string= (also any function can be added to manipulate the list.
+  #+begin_src elisp :results raw
+    (defun split-join-string (word)
+      "What the label says. Thanks to https://emacs.stackexchange.com/a/12295 I could understand what to use!"
+      (cl-reduce ;; Only way to "expand" (unfolding) the content of the stuff we want to concatenate. Better than apply for the reasons exposed above
+       'concat
+       `(,@(split-string word "" t)) ;; Reading the docs understood you can use ` and ,@ to execute bits and pass other bits
+       )
+      )
+
+    (split-join-string "a word")
+  #+end_src
+
+  #+RESULTS:
+  a word
+* filtering elements of a list
+# How is a filter?
+-
+- =remove-if= or =remove-if-not= can be used with a
