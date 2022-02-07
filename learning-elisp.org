@@ -47,3 +47,14 @@
 # How is a filter?
 -
 - =remove-if= or =remove-if-not= can be used with a
+* Creating a list from a string
+#+begin_src elisp :results raw
+  (split-string "this a string" "" t)
+#+end_src
+
+#+RESULTS:
+(t h i s   a   s t r i n g)
+* Throw an error
+#+begin_src elisp :result raw
+(throw 'atag 1)
+#+end_src

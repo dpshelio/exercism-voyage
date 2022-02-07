@@ -7,6 +7,7 @@
 
 
 (defun iterate-hd (parent child)
+  "Compares two lists, element by element, and adds 1 if they are different"
         (cond
          ((cl-endp parent) 0)
          (t
@@ -18,11 +19,12 @@
 
 
 (defun hamming-distance (parent child)
+  "Calculates the differences of two strings"
         (cond
          ((= (length parent) (length child))
           (iterate-hd (split-string parent "" t) (split-string child "" t))
           )
-         (t nil)
+         (t (throw 'different-lengt 1))
          )
         )
 
