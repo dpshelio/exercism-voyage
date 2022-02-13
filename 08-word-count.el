@@ -45,9 +45,9 @@
    (t
     (append
      (list
-      (cons (car sentence) (+ (length (remove-if-not  (apply-partially #'myeq_str (car sentence)) (cdr sentence))) 1))
+      (cons (car sentence) (+ (length (cl-remove-if-not  (apply-partially #'myeq_str (car sentence)) (cdr sentence))) 1))
      )
-      (count_words (remove-if (apply-partially #'myeq_str (car sentence)) (cdr sentence)))
+      (count_words (cl-remove-if (apply-partially #'myeq_str (car sentence)) (cdr sentence)))
     )
     )
   )
@@ -61,7 +61,7 @@
     ;; count the uniqes
     (count_words
       (replace_quote
-       (remove-if
+       (cl-remove-if
         'string-empty-p
         (split-string (downcase sentence) "[ \f\t\n\r\v!?:;,\".&~$%^&@]+")
         )
