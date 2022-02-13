@@ -43,6 +43,42 @@
 
   #+RESULTS:
   a word
+
+** Strings and chars, and concatenate!
+- We can get a list of chars (as numbers) with:
+  #+begin_src elisp :results raw
+    (string-to-char "h")
+  #+end_src
+
+  #+RESULTS:
+  104
+
+  - Note that only does it for the first element of a string:
+      #+begin_src elisp :results raw
+    (= (string-to-char "hello") (string-to-char "h"))
+      #+end_src
+
+      #+RESULTS:
+      t
+
+- and that could be converted into a string:
+  #+begin_src elisp :results raw
+    (string 104)
+  #+end_src
+
+  #+RESULTS:
+  h
+
+- To concatenate:
+  #+begin_src elisp :results raw
+    (apply #'string
+           '(104 101 104 113))
+  #+end_src
+
+  #+RESULTS:
+  hehq
+
+
 * filtering elements of a list
 # How is a filter?
 -
