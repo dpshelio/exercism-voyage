@@ -78,6 +78,23 @@
   #+RESULTS:
   hehq
 
+- =cons= vs =append=
+  append will break the string into a sequence
+  #+begin_src elisp :results raw
+    (append "this" '("and" "something" "else"))
+  #+end_src
+
+  #+RESULTS:
+  (116 104 105 115 and something else)
+
+  where cons will keep it:
+  #+begin_src elisp :results raw
+    (cons "this" '("and" "something" "else"))
+  #+end_src
+
+  #+RESULTS:
+  (this and something else)
+
 
 * filtering elements of a list
 # How is a filter?
@@ -94,3 +111,11 @@
 #+begin_src elisp :result raw
 (throw 'atag 1)
 #+end_src
+* Contains
+While fighting with second part on exercise 10 (allergies) I found we could return the
+word, or nil as the word is True.
+
+- =seq-contains= or =member= provides that... However:
+  - =seq-contains= provides the first element
+  - =member= provides the rest of the list
+- if we want a =t= / =nil= result, then we need to use something different.
